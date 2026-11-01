@@ -1,0 +1,623 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#160B2E">
+<title>青年共鳴獎投票</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#160B2E;      /* 夜幕紫黑：背景 */
+  --deep:#241046;     /* 深紫：面板 */
+  --plum:#3A1B78;     /* 梅紫：次要面積 */
+  --amethyst:#8A5CF0; /* 紫水晶：主要行動 */
+  --lilac:#CDBDFB;    /* 淡丁香：線條與輔助字 */
+  --paper:#F6F1FF;    /* 紙白：主要文字與選取底 */
+  --bad:#FF8FA3;
+  --ok:#8CE6B8;
+  --font:"Noto Sans TC","PingFang TC","Microsoft JhengHei","Heiti TC",system-ui,sans-serif;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;min-height:100%}
+body{
+  background:var(--ink);
+  background-image:repeating-radial-gradient(circle at 100% 0,transparent 0 46px,rgba(205,189,251,.07) 47px 48px);
+  background-attachment:fixed;
+  color:var(--paper);
+  font:400 16px/1.65 var(--font);
+  padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+}
+button{font:inherit;color:inherit;cursor:pointer;border:0;background:none}
+:focus-visible{outline:3px solid var(--lilac);outline-offset:3px;border-radius:8px}
+.hidden{display:none!important}
+
+.app{max-width:560px;margin:0 auto;min-height:100dvh;display:flex;flex-direction:column;padding:0 20px}
+
+/* ---------- 頂部 ---------- */
+.top{padding:22px 0 10px}
+.brand{font-weight:700;color:var(--lilac);font-size:15px;letter-spacing:.12em}
+.progress{display:flex;gap:6px;margin-top:14px}
+.progress i{flex:1;height:4px;border-radius:4px;background:rgba(205,189,251,.2);transition:background .3s}
+.progress i.on{background:var(--amethyst)}
+
+/* ---------- 標題 ---------- */
+section{flex:1;display:flex;flex-direction:column}
+h1{font-weight:900;font-size:clamp(30px,8.5vw,40px);line-height:1.2;margin:22px 0 10px;letter-spacing:.01em}
+.lead{color:var(--lilac);margin:0 0 22px;max-width:30em}
+.who-chip{display:inline-flex;align-items:center;gap:8px;margin-top:20px;padding:6px 14px 6px 6px;border-radius:99px;background:var(--deep);border:1px solid rgba(205,189,251,.25);font-weight:500;font-size:15px}
+.who-chip b{background:var(--amethyst);color:#fff;border-radius:99px;padding:2px 12px}
+.who-chip button{color:var(--lilac);text-decoration:underline;text-underline-offset:3px;font-size:14px;margin-left:4px}
+
+/* ---------- 組別清單 ---------- */
+.list{list-style:none;margin:0 -8px;padding:0}
+.row{
+  position:relative;overflow:hidden;width:100%;display:flex;align-items:center;gap:16px;text-align:left;
+  padding:18px 16px;border-radius:16px;border-bottom:1px solid rgba(205,189,251,.16);
+  font-size:20px;font-weight:700;transition:background .2s,color .2s;
+}
+.list li:last-child .row{border-bottom-color:transparent}
+.row:hover{background:rgba(205,189,251,.08)}
+.row .name{flex:1}
+.row .tag{font-size:14px;font-weight:500;color:var(--ok)}
+.row .go{color:var(--lilac);font-size:22px;line-height:1}
+.row[disabled]{opacity:.45;cursor:not-allowed}
+.row[disabled]:hover{background:none}
+
+/* 共鳴標記（單選） */
+.mark{flex:none;position:relative;width:30px;height:30px;border-radius:50%;border:2px solid var(--lilac);transition:all .2s}
+.mark::after{content:"";position:absolute;inset:5px;border-radius:50%;border:2px solid transparent;transition:all .2s}
+.row[aria-checked="true"]{background:var(--paper);color:var(--ink)}
+.row[aria-checked="true"] .mark{border-color:var(--amethyst);background:var(--amethyst)}
+.row[aria-checked="true"] .mark::after{border-color:#fff}
+.ring{position:absolute;left:31px;top:50%;width:30px;height:30px;margin:-15px 0 0 -15px;border-radius:50%;
+  border:2px solid var(--amethyst);pointer-events:none;opacity:0;animation:ripple 1.1s ease-out forwards}
+@keyframes ripple{0%{transform:scale(.6);opacity:.9}100%{transform:scale(16);opacity:0}}
+
+/* ---------- 底部行動列 ---------- */
+.bar{position:sticky;bottom:0;margin:auto -20px 0;padding:28px 20px calc(18px + env(safe-area-inset-bottom));
+  background:linear-gradient(to top,var(--ink) 62%,rgba(22,11,46,0))}
+.btn{width:100%;height:58px;border-radius:16px;background:var(--amethyst);color:#fff;font-weight:700;font-size:18px;transition:transform .1s,background .2s,opacity .2s}
+.btn:active{transform:scale(.98)}
+.btn[disabled]{background:var(--plum);color:var(--lilac);opacity:.7;cursor:not-allowed}
+.btn.ghost{background:transparent;border:1.5px solid rgba(205,189,251,.4);color:var(--paper)}
+.btn.small{height:46px;font-size:16px}
+.btn.danger{background:transparent;border:1.5px solid var(--bad);color:var(--bad)}
+
+/* ---------- 完成畫面 ---------- */
+.done{align-items:center;text-align:center;justify-content:center;padding-bottom:40px}
+.pulse{position:relative;width:132px;height:132px;margin:0 auto 16px}
+.pulse span{position:absolute;inset:0;border-radius:50%;border:2px solid var(--amethyst);animation:pulse 2.8s ease-out infinite}
+.pulse span:nth-child(2){animation-delay:.9s}
+.pulse span:nth-child(3){animation-delay:1.8s}
+.pulse svg{position:absolute;inset:34px;width:64px;height:64px}
+@keyframes pulse{0%{transform:scale(.45);opacity:1}100%{transform:scale(1.9);opacity:0}}
+.done .lead{margin-left:auto;margin-right:auto}
+
+/* ---------- 關閉 / 空狀態 ---------- */
+.empty{justify-content:center;padding-bottom:60px}
+
+/* ---------- 對話框 ---------- */
+dialog{border:0;padding:0;margin:auto auto 0;width:min(100%,560px);max-height:90dvh;overflow:auto;
+  color:var(--paper);background:var(--deep);border-radius:28px 28px 0 0;font-family:var(--font)}
+dialog::backdrop{background:rgba(10,4,24,.72);backdrop-filter:blur(3px)}
+dialog[open]{animation:sheet .28s cubic-bezier(.2,.8,.2,1)}
+@keyframes sheet{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+.sheet{padding:28px 22px calc(24px + env(safe-area-inset-bottom))}
+.sheet h2{margin:0 0 6px;font-size:24px;font-weight:900}
+.sheet p{margin:0 0 20px;color:var(--lilac)}
+.sheet .big{font-size:26px;font-weight:900;color:var(--paper);margin:4px 0 18px}
+.pair{display:grid;grid-template-columns:1fr 1.4fr;gap:10px}
+
+/* ---------- 後台 ---------- */
+.admin-link{align-self:center;margin:8px 0 22px;font-size:13px;color:rgba(205,189,251,.55);padding:8px 14px}
+.admin-link:hover{color:var(--lilac)}
+label.f{display:block;font-weight:700;margin:18px 0 8px}
+input[type=text],input[type=password],textarea{width:100%;background:var(--ink);color:var(--paper);border:1.5px solid rgba(205,189,251,.3);border-radius:12px;padding:12px 14px;font:inherit}
+textarea{min-height:190px;resize:vertical;line-height:1.7}
+.switch{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 16px;border-radius:14px;background:var(--ink)}
+.switch button{width:56px;height:32px;border-radius:99px;background:var(--plum);position:relative;transition:background .2s;flex:none}
+.switch button::after{content:"";position:absolute;top:4px;left:4px;width:24px;height:24px;border-radius:50%;background:#fff;transition:transform .2s}
+.switch button[aria-checked="true"]{background:var(--amethyst)}
+.switch button[aria-checked="true"]::after{transform:translateX(24px)}
+.res{display:grid;grid-template-columns:minmax(64px,28%) 1fr 28px;align-items:center;gap:10px;margin:8px 0}
+.res .bar2{height:20px;border-radius:6px;background:var(--ink);overflow:hidden}
+.res .bar2 i{display:block;height:100%;background:var(--amethyst);border-radius:6px;transition:width .4s}
+.res b{text-align:right}
+.res.top .bar2 i{background:var(--paper)}
+.log{width:100%;border-collapse:collapse;font-size:15px}
+.log td{padding:9px 4px;border-bottom:1px solid rgba(205,189,251,.14)}
+.log td:last-child{text-align:right}
+.mini{font-size:13px;color:var(--lilac);text-decoration:underline;text-underline-offset:3px;padding:4px}
+.note{font-size:14px;color:var(--lilac);margin:8px 0 0}
+.msg{margin-top:10px;font-size:15px}
+.msg.err{color:var(--bad)}.msg.ok{color:var(--ok)}
+.x{position:absolute;right:14px;top:14px;width:40px;height:40px;border-radius:50%;background:rgba(205,189,251,.12);font-size:20px}
+
+.qrwrap{text-align:center}
+.qrbox{display:inline-block;background:#fff;padding:16px;border-radius:20px;line-height:0}
+.qrbox img{display:block}
+.qrurl{word-break:break-all;font-size:14px;color:var(--lilac);margin:14px 0 18px}
+@media (prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .ring{display:none}
+}
+
+/* ---------- v3 新增 ---------- */
+.codebox{width:100%;text-align:center;font:700 30px/1.2 var(--font);letter-spacing:.08em;padding:20px 12px;border-radius:16px;background:var(--deep);color:var(--paper);border:2px solid rgba(205,189,251,.3);text-transform:uppercase}
+.codebox::placeholder{color:rgba(205,189,251,.45);font-weight:500;letter-spacing:.02em;font-size:22px}
+.codebox:focus{border-color:var(--amethyst);outline:none}
+.slots{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:0 0 10px}
+.slot{border-radius:16px;border:2px dashed rgba(205,189,251,.35);padding:12px 14px;text-align:left;min-height:86px;transition:all .2s}
+.slot small{display:block;color:var(--lilac);font-size:13px;line-height:1.4}
+.slot b{display:block;font-size:19px;margin-top:4px;line-height:1.3;word-break:break-all}
+.slot.filled{border-style:solid;border-color:rgba(205,189,251,.5);background:var(--deep)}
+.slot.active{border-style:solid;border-color:var(--amethyst);background:rgba(138,92,240,.16)}
+.rank{flex:none;font-size:14px;font-weight:700;padding:2px 12px;border-radius:99px;background:var(--amethyst);color:#fff}
+.row[aria-checked="true"] .rank{background:var(--ink)}
+.res{grid-template-columns:minmax(64px,28%) 1fr 44px}
+.stat{font-size:14px;color:var(--lilac)}
+.stat.v{color:var(--ok)}
+.acts{display:flex;gap:6px;justify-content:flex-end;flex-wrap:wrap}
+.sum{margin:0 auto 22px;padding:14px 18px;border-radius:16px;background:var(--deep);border:1px solid rgba(205,189,251,.25);text-align:left;line-height:1.9}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+
+<body>
+<div class="app">
+
+  <header class="top">
+    <div class="brand">青年共鳴獎</div>
+    <div class="progress" role="img" aria-label="投票進度"><i></i><i></i><i></i></div>
+  </header>
+
+  <!-- 1. 輸入專屬投票碼 -->
+  <section id="v-code" class="hidden">
+    <h1>請輸入貴組<br>專屬投票碼</h1>
+    <p class="lead">投票碼由工作人員在報到時發給各組代表。每組只能有一位代表登入投票。</p>
+    <input id="code" class="codebox" placeholder="請輸入投票碼" autocomplete="off" autocapitalize="characters" autocorrect="off" spellcheck="false" maxlength="12" aria-label="投票碼">
+    <div id="codeMsg"></div>
+    <div class="bar"><button class="btn" id="codeGo">進入投票</button></div>
+  </section>
+
+  <!-- 2. 選兩組 -->
+  <section id="v-pick" class="hidden">
+    <div><span class="who-chip"><b id="meNo"></b><span id="meName"></span></span></div>
+    <h1>選出最有共鳴的兩組</h1>
+    <p class="lead">先選第一順位，再選第二順位。清單不會列出你們自己的組別，送出後無法更改。</p>
+    <div class="slots">
+      <button class="slot" id="slot1"><small>🥇 第一順位 · 3 分</small><b id="s1t">尚未選擇</b></button>
+      <button class="slot" id="slot2"><small>🥈 第二順位 · 1 分</small><b id="s2t">尚未選擇</b></button>
+    </div>
+    <ul class="list" id="pickList"></ul>
+    <div class="bar"><button class="btn" id="cta" disabled>請先選第一順位</button></div>
+  </section>
+
+  <!-- 3. 完成 -->
+  <section id="v-done" class="hidden done">
+    <div class="pulse" aria-hidden="true">
+      <span></span><span></span><span></span>
+      <svg viewBox="0 0 64 64" fill="none" stroke="#F6F1FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 33l13 13 24-27"/></svg>
+    </div>
+    <h1>投票完成</h1>
+    <p class="lead" id="doneText"></p>
+    <div class="sum" id="doneSum"></div>
+  </section>
+
+  <!-- 未開放 / 載入中 / 錯誤 -->
+  <section id="v-closed" class="hidden empty">
+    <h1 id="closedTitle">投票尚未開放</h1>
+    <p class="lead" id="closedText">請等主持人宣布開始，頁面會自動更新。</p>
+  </section>
+
+  <button class="admin-link" id="openAdmin">主辦方後台</button>
+</div>
+
+<!-- 確認送出 -->
+<dialog id="dConfirm">
+  <div class="sheet">
+    <h2>確認送出？</h2>
+    <p><span id="cMe"></span> 的兩票將投給</p>
+    <div class="big" id="c1"></div>
+    <div class="big" id="c2" style="margin-top:-8px"></div>
+    <p>送出後無法更改。</p>
+    <div class="msg err" id="cMsg"></div>
+    <div class="pair">
+      <button class="btn ghost" id="cNo">再想想</button>
+      <button class="btn" id="cYes">確定送出</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- 後台 -->
+<dialog id="dAdmin">
+  <button class="x" id="aClose" aria-label="關閉">×</button>
+  <div class="sheet">
+    <div id="aLock">
+      <h2>主辦方後台</h2>
+      <p>請輸入後台密碼。</p>
+      <input type="password" id="pin" placeholder="後台密碼" autocomplete="off">
+      <div class="msg err" id="pinMsg"></div>
+      <button class="btn small" id="pinGo" style="margin-top:16px">進入後台</button>
+    </div>
+
+    <div id="aPanel" class="hidden">
+      <h2>主辦方後台</h2>
+      <p>設定組別、控制開放時間、查看結果。</p>
+
+      <div class="switch">
+        <div><b>開放投票</b><div class="note" style="margin:0" id="openNote"></div></div>
+        <button id="openSw" role="switch" aria-checked="false" aria-label="開放投票"></button>
+      </div>
+
+      <button class="btn small" id="showQr" style="margin-top:14px">顯示投票 QR Code</button>
+
+      <label class="f" for="teamsTa">組別名單（一行一組，最多 8 組）</label>
+      <textarea id="teamsTa"></textarea>
+      <button class="btn small" id="saveTeams" style="margin-top:12px">儲存名單</button>
+      <div class="msg" id="teamMsg"></div>
+      <p class="note">第 1 行對應投票碼 G1、第 2 行對應 G2，依此類推，請不要在活動中途調換順序。</p>
+
+      <label class="f">目前結果（第一順位 3 分、第二順位 1 分）</label>
+      <div id="results"></div>
+      <p class="note" id="prog"></p>
+
+      <label class="f">各組狀態</label>
+      <table class="log" id="log"></table>
+      <p class="note">「放行」＝讓這一組重新用投票碼登入（例如代表手機沒電）。「重設票」＝讓這一組重新投票。</p>
+
+      <button class="btn small danger" id="resetAll" style="margin-top:26px">清除全部票數</button>
+    </div>
+  </div>
+</dialog>
+
+<!-- QR Code -->
+<dialog id="dQr">
+  <div class="sheet qrwrap">
+    <h2>掃描 QR Code 投票</h2>
+    <p>請各組代表用手機相機掃描，再輸入貴組專屬投票碼。</p>
+    <div class="qrbox" id="qrBox"></div>
+    <div class="qrurl" id="qrUrl"></div>
+    <div class="pair">
+      <button class="btn ghost" id="qrClose">關閉</button>
+      <button class="btn" id="qrDl">下載 QR 圖片</button>
+    </div>
+  </div>
+</dialog>
+
+<script type="module">
+import {initializeApp} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
+import {getAuth,signInAnonymously} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
+import {initializeFirestore,doc,collection,onSnapshot,setDoc,getDoc,getDocs,deleteDoc,writeBatch,query,where} from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
+
+/* ===== Firebase 設定（已填好） ===== */
+const firebaseConfig = {
+  apiKey: "AIzaSyB_eDdAElSZgW7XkimJJFfcGziySZpZdXs",
+  authDomain: "youth-vote-585aa.firebaseapp.com",
+  projectId: "youth-vote-585aa",
+  storageBucket: "youth-vote-585aa.firebasestorage.app",
+  messagingSenderId: "184142608429",
+  appId: "1:184142608429:web:a303d292834ec38555a0a4"
+};
+/* 投票碼與後台密碼都放在 Firestore 規則裡，不在這個檔案中。 */
+
+const $=id=>document.getElementById(id);
+const configured=!/貼上/.test(firebaseConfig.projectId||'貼上');
+let auth,db,cfgRef,uid='';
+let C={teams:[],ids:[],open:false};
+let ready={cfg:false,auth:false,vote:false},err='',authErr='';
+let my='',myVote=null,unsubVote=null;
+let s1='',s2='',active=1,curView='';
+let adminOn=false,adminUnsubs=[],A={votes:{},claims:new Set()};
+const nm=id=>(C.teams.find(t=>t.id===id)||{}).name||'';
+const setMsg=(id,t,c)=>{const e=$(id);e.className='msg '+(c||'err');e.textContent=t||''};
+
+/* ========== 畫面切換 ========== */
+function show(id){
+  ['v-code','v-pick','v-done','v-closed'].forEach(v=>$(v).classList.toggle('hidden',v!==id));
+  const step={'v-code':1,'v-pick':2,'v-done':3,'v-closed':0}[id];
+  document.querySelectorAll('.progress i').forEach((el,i)=>el.classList.toggle('on',i<step));
+  if(curView!==id)window.scrollTo(0,0);
+  curView=id;
+}
+function closed(t,p){$('closedTitle').textContent=t;$('closedText').textContent=p;show('v-closed')}
+
+function route(){
+  if(!configured)return closed('尚未設定 Firebase','請把 Firebase 設定貼進 index.html 最上方的 firebaseConfig。');
+  if(authErr)return closed('系統尚未準備好','請通知主辦方：Firebase 需要啟用「匿名登入」。（'+authErr+'）');
+  if(err&&!ready.cfg)return closed('暫時無法連線','請檢查網路，稍後重新整理頁面。');
+  if(!ready.cfg||!ready.auth)return closed('載入中…','');
+  if(C.teams.length<2)return closed('尚未設定組別','請等主辦方完成設定，頁面會自動更新。');
+  if(!my){show('v-code');return}
+  if(!ready.vote)return closed('載入中…','');
+  if(myVote){
+    $('doneText').textContent=`${nm(my)} 的票已送出，謝謝你們的參與。`;
+    $('doneSum').textContent=`🥇 第一順位（3 分）：${nm(myVote.first)}\n🥈 第二順位（1 分）：${nm(myVote.second)}`;
+    $('doneSum').style.whiteSpace='pre-line';
+    show('v-done');return;
+  }
+  if(!C.open)return closed(`${nm(my)} 已登入`,'請等主持人宣布開始，頁面會自動更新。');
+  if(curView!=='v-pick')startPick();
+  show('v-pick');
+}
+function refresh(){if(adminOn)renderAdmin();route()}
+
+/* ========== 1. 輸入投票碼 ========== */
+async function submitCode(){
+  setMsg('codeMsg','');
+  const raw=$('code').value.normalize('NFKC').toUpperCase().replace(/[\s\u2010-\u2015\u2212]+/g,'-').replace(/^-+|-+$/g,'');
+  const mt=/^G(\d{1,2})-?(\d{4})$/.exec(raw);
+  if(!mt)return setMsg('codeMsg','格式不正確，請輸入完整的投票碼（英文字母、數字和中間的橫線）。');
+  const n=parseInt(mt[1],10),id='t'+n,code=`G${n}-${mt[2]}`;
+  if(!C.ids.includes(id))return setMsg('codeMsg','投票碼不正確，請再確認。');
+  const b=$('codeGo');b.disabled=true;b.textContent='確認中…';
+  try{
+    await ensureAuth();
+    const c=await getDoc(doc(db,'claimed',id));
+    if(c.exists()){setMsg('codeMsg',`${nm(id)} 已經有代表登入了。如有疑問，請洽工作人員。`);return}
+    const bt=writeBatch(db);
+    bt.set(doc(db,'claims',id),{uid,code,at:Date.now()});
+    bt.set(doc(db,'claimed',id),{at:Date.now()});
+    await bt.commit();
+    my=id;myVote=null;ready.vote=false;watchMyVote();route();
+  }catch(e){
+    setMsg('codeMsg',(e.code||'').startsWith('auth/')?authMsg:(e.code==='permission-denied'?'投票碼不正確，或這一組已有人登入。':'連線失敗，請再試一次。'));
+  }finally{b.disabled=false;b.textContent='進入投票'}
+}
+$('codeGo').onclick=submitCode;
+$('code').onkeydown=e=>{if(e.key==='Enter')submitCode()};
+
+/* ========== 2. 選兩組 ========== */
+function startPick(){
+  s1='';s2='';active=1;
+  $('meNo').textContent=C.ids.indexOf(my)+1;$('meName').textContent=nm(my);
+  const ul=$('pickList');ul.innerHTML='';
+  C.teams.filter(t=>t.id!==my).forEach(t=>{
+    const li=document.createElement('li');
+    const b=document.createElement('button');
+    b.className='row';b.dataset.id=t.id;b.setAttribute('role','checkbox');b.setAttribute('aria-checked','false');
+    const m=document.createElement('span');m.className='mark';m.setAttribute('aria-hidden','true');
+    const n=document.createElement('span');n.className='name';n.textContent=t.name;
+    const rk=document.createElement('span');rk.className='rank hidden';
+    b.append(m,n,rk);
+    b.onclick=()=>tapTeam(t.id,b);
+    li.appendChild(b);ul.appendChild(li);
+  });
+  paint();
+}
+function tapTeam(id,btn){
+  if((id===s1&&active===1)||(id===s2&&active===2)){
+    if(active===1)s1='';else s2='';
+  }else{
+    if(s1===id)s1='';
+    if(s2===id)s2='';
+    if(active===1)s1=id;else s2=id;
+    active=!s1?1:(!s2?2:active);
+    ripple(btn);
+  }
+  paint();
+}
+function paint(){
+  document.querySelectorAll('#pickList .row').forEach(r=>{
+    const id=r.dataset.id,rk=r.querySelector('.rank');
+    const label=id===s1?'🥇 3 分':(id===s2?'🥈 1 分':'');
+    r.setAttribute('aria-checked',String(!!label));
+    rk.textContent=label;rk.classList.toggle('hidden',!label);
+  });
+  $('s1t').textContent=nm(s1)||'尚未選擇';
+  $('s2t').textContent=nm(s2)||'尚未選擇';
+  $('slot1').className='slot'+(s1?' filled':'')+(active===1?' active':'');
+  $('slot2').className='slot'+(s2?' filled':'')+(active===2?' active':'');
+  const c=$('cta');c.disabled=!(s1&&s2);
+  c.textContent=!s1?'請先選第一順位':(!s2?'請再選第二順位':'確認送出');
+}
+function ripple(btn){
+  [0,140,280].forEach(d=>{
+    const s=document.createElement('span');s.className='ring';s.style.animationDelay=d+'ms';
+    btn.appendChild(s);setTimeout(()=>s.remove(),1500+d);
+  });
+}
+$('slot1').onclick=()=>{active=1;paint()};
+$('slot2').onclick=()=>{active=2;paint()};
+$('cta').onclick=()=>{
+  setMsg('cMsg','');
+  $('cMe').textContent=nm(my);
+  $('c1').textContent=`🥇 ${nm(s1)}　3 分`;
+  $('c2').textContent=`🥈 ${nm(s2)}　1 分`;
+  $('dConfirm').showModal();
+};
+$('cNo').onclick=()=>$('dConfirm').close();
+$('cYes').onclick=async()=>{
+  const b=$('cYes');b.disabled=true;b.textContent='送出中…';setMsg('cMsg','');
+  const payload={team:my,first:s1,second:s2,at:Date.now()};
+  const slow=setTimeout(()=>setMsg('cMsg','網路比較慢，仍在送出，請稍候，不要關閉頁面…','ok'),6000);
+  try{
+    await Promise.race([
+      setDoc(doc(db,'votes',my),payload),
+      new Promise((_,rej)=>setTimeout(()=>rej(Object.assign(new Error('timeout'),{code:'timeout'})),30000))
+    ]);
+    myVote=payload;$('dConfirm').close();route();
+  }catch(e){
+    let saved=null;
+    try{const s=await getDoc(doc(db,'votes',my));if(s.exists())saved=s.data()}catch(_){}
+    if(saved){myVote=saved;$('dConfirm').close();route()}
+    else setMsg('cMsg',e.code==='permission-denied'?'送出失敗：投票可能已關閉，或登入狀態已失效。請重新整理頁面。':'連線不穩，請再按一次「確定送出」。');
+  }finally{clearTimeout(slow);b.disabled=false;b.textContent='確定送出'}
+};
+
+/* ========== 登入狀態與自己的票 ========== */
+async function restoreClaim(watch){
+  const s=await getDocs(query(collection(db,'claims'),where('uid','==',uid)));
+  my=s.empty?'':s.docs[0].id;
+  if(!my){myVote=null;ready.vote=true}else if(watch){ready.vote=false;watchMyVote()}else ready.vote=true;
+}
+function watchMyVote(){
+  if(unsubVote){unsubVote();unsubVote=null}
+  if(!my){ready.vote=true;return}
+  unsubVote=onSnapshot(doc(db,'votes',my),snap=>{
+    if(snap.metadata.hasPendingWrites)return;
+    myVote=snap.exists()?snap.data():null;ready.vote=true;refresh();
+  },async()=>{
+    if(unsubVote){unsubVote();unsubVote=null}
+    try{await restoreClaim(false)}catch(e){ready.vote=true}
+    refresh();
+  });
+}
+
+/* ========== 後台 ========== */
+const pts=()=>{
+  const p=Object.fromEntries(C.ids.map(i=>[i,0])),g={},s={};
+  C.ids.forEach(i=>{g[i]=0;s[i]=0});
+  Object.values(A.votes).forEach(v=>{
+    if(v.first in p){p[v.first]+=3;g[v.first]++}
+    if(v.second in p){p[v.second]+=1;s[v.second]++}
+  });
+  return {p,g,s};
+};
+function renderAdmin(){
+  $('openSw').setAttribute('aria-checked',String(C.open));
+  $('openNote').textContent=C.open?'目前開放中':'目前已關閉';
+  if(document.activeElement!==$('teamsTa')){
+    $('teamsTa').value=C.teams.length?C.teams.map(t=>t.name).join('\n'):Array.from({length:8},(_,i)=>`第 ${i+1} 組`).join('\n');
+  }
+  const {p,g,s}=pts();
+  const max=Math.max(1,...Object.values(p)),best=Math.max(0,...Object.values(p));
+  const box=$('results');box.innerHTML='';
+  [...C.teams].sort((a,b)=>p[b.id]-p[a.id]||g[b.id]-g[a.id]).forEach(x=>{
+    const r=document.createElement('div');r.className='res'+(p[x.id]===best&&best>0?' top':'');
+    const n=document.createElement('span');n.textContent=x.name;
+    const bw=document.createElement('div');bw.className='bar2';const i=document.createElement('i');i.style.width=(p[x.id]/max*100)+'%';bw.appendChild(i);
+    const c=document.createElement('b');c.textContent=p[x.id];
+    r.append(n,bw,c);box.appendChild(r);
+  });
+  const voted=C.ids.filter(id=>A.votes[id]).length,claimed=C.ids.filter(id=>A.claims.has(id)).length;
+  $('prog').textContent=`已登入 ${claimed} / ${C.teams.length} 組，已投票 ${voted} / ${C.teams.length} 組（白色為目前最高分）`;
+
+  const lg=$('log');lg.innerHTML='';
+  C.teams.forEach(x=>{
+    const v=A.votes[x.id],tr=document.createElement('tr');
+    const a=document.createElement('td');a.textContent=x.name;
+    const b=document.createElement('td');b.className='stat'+(v?' v':'');
+    b.textContent=v?`已投票　🥇${nm(v.first)} 🥈${nm(v.second)}`:(A.claims.has(x.id)?'已登入，尚未投票':'尚未登入');
+    const c=document.createElement('td');const acts=document.createElement('div');acts.className='acts';
+    if(A.claims.has(x.id)){
+      const bt=document.createElement('button');bt.className='mini';bt.textContent='放行';
+      bt.onclick=async()=>{if(confirm(`讓「${x.name}」可以重新用投票碼登入？`)){try{await release(x.id)}catch(e){setMsg('teamMsg','操作失敗：'+(e.code||e.message))}}};
+      acts.appendChild(bt);
+    }
+    if(v){
+      const bt=document.createElement('button');bt.className='mini';bt.textContent='重設票';
+      bt.onclick=async()=>{if(confirm(`讓「${x.name}」重新投票？`)){try{await deleteDoc(doc(db,'votes',x.id))}catch(e){setMsg('teamMsg','操作失敗：'+(e.code||e.message))}}};
+      acts.appendChild(bt);
+    }
+    c.appendChild(acts);
+    tr.append(a,b,c);lg.appendChild(tr);
+  });
+}
+async function release(id){
+  const b=writeBatch(db);b.delete(doc(db,'claims',id));b.delete(doc(db,'claimed',id));await b.commit();
+}
+const stopAdmin=()=>{adminUnsubs.forEach(u=>u());adminUnsubs=[];adminOn=false;A={votes:{},claims:new Set()}};
+
+$('openAdmin').onclick=()=>{
+  stopAdmin();
+  $('aLock').classList.remove('hidden');$('aPanel').classList.add('hidden');
+  $('pin').value='';setMsg('pinMsg','');$('dAdmin').showModal();
+  setTimeout(()=>$('pin').focus(),50);
+};
+$('aClose').onclick=()=>$('dAdmin').close();
+$('dAdmin').addEventListener('close',()=>{stopAdmin();route()});
+async function unlock(){
+  const b=$('pinGo');b.disabled=true;b.textContent='確認中…';
+  try{
+    await ensureAuth();
+    await setDoc(doc(db,'admins',uid),{pin:$('pin').value});
+  }catch(e){
+    setMsg('pinMsg',(e.code||'').startsWith('auth/')?authMsg:(e.code==='permission-denied'?'密碼不正確，請再試一次。':'連線失敗，請再試一次。'));
+    return;
+  }finally{b.disabled=false;b.textContent='進入後台'}
+  adminOn=true;A={votes:{},claims:new Set()};
+  $('aLock').classList.add('hidden');$('aPanel').classList.remove('hidden');
+  adminUnsubs=[
+    onSnapshot(collection(db,'votes'),sn=>{A.votes={};sn.forEach(d=>{A.votes[d.id]=d.data()});renderAdmin()},e=>setMsg('teamMsg','讀取票數失敗：'+e.code)),
+    onSnapshot(collection(db,'claims'),sn=>{A.claims=new Set();sn.forEach(d=>A.claims.add(d.id));renderAdmin()},()=>{})
+  ];
+  renderAdmin();
+}
+$('pinGo').onclick=unlock;
+$('pin').onkeydown=e=>{if(e.key==='Enter')unlock()};
+$('openSw').onclick=async()=>{
+  try{await setDoc(cfgRef,{teams:C.teams,ids:C.ids,open:!C.open})}
+  catch(e){setMsg('teamMsg','操作失敗：'+(e.code||e.message))}
+};
+$('saveTeams').onclick=async()=>{
+  const names=[...new Set($('teamsTa').value.split('\n').map(x=>x.trim()).filter(Boolean))];
+  if(names.length<2)return setMsg('teamMsg','至少需要 2 組。');
+  if(names.length>8)return setMsg('teamMsg','最多 8 組（投票碼 G1–G8）。');
+  const teams=names.map((x,i)=>({id:'t'+(i+1),name:x}));
+  try{await setDoc(cfgRef,{teams,ids:teams.map(t=>t.id),open:C.open});setMsg('teamMsg',`已儲存 ${teams.length} 組。`,'ok')}
+  catch(e){setMsg('teamMsg','儲存失敗：'+(e.code||e.message))}
+};
+$('resetAll').onclick=async()=>{
+  if(!confirm('確定清除所有票數？此動作無法復原。'))return;
+  try{const b=writeBatch(db);Object.keys(A.votes).forEach(id=>b.delete(doc(db,'votes',id)));await b.commit()}
+  catch(e){setMsg('teamMsg','操作失敗：'+(e.code||e.message))}
+};
+
+/* ========== QR Code ========== */
+$('showQr').onclick=()=>{
+  const box=$('qrBox');box.innerHTML='';
+  if(location.protocol==='file:'){
+    box.style.cssText='line-height:1.6;padding:20px;color:#160B2E;font-weight:700';
+    box.textContent='請先部署到網路上，再用網站網址開啟後台產生 QR Code。';
+    $('qrUrl').textContent='';$('qrDl').disabled=true;
+  }else{
+    box.removeAttribute('style');$('qrDl').disabled=false;
+    const url=location.href.split('#')[0].split('?')[0];
+    const size=Math.min(380,Math.floor(window.innerWidth*0.7));
+    new QRCode(box,{text:url,width:size,height:size,colorDark:'#160B2E',colorLight:'#FFFFFF',correctLevel:QRCode.CorrectLevel.M});
+    $('qrUrl').textContent=url;
+  }
+  $('dQr').showModal();
+};
+$('qrClose').onclick=()=>$('dQr').close();
+$('qrDl').onclick=()=>{
+  const c=$('qrBox').querySelector('canvas');if(!c)return;
+  const a=document.createElement('a');a.download='youth-vote-qr.png';a.href=c.toDataURL('image/png');a.click();
+};
+
+/* 只有真的要輸入投票碼、或進後台的人才會登入（匿名），其他只看頁面的人不會占用額度 */
+async function ensureAuth(){
+  if(uid)return;
+  const cred=await signInAnonymously(auth);
+  uid=cred.user.uid;
+}
+const authMsg='系統尚未準備好，請通知主辦方（Firebase 需要啟用「匿名登入」）。';
+
+/* ========== 啟動 ========== */
+async function boot(){
+  const app=initializeApp(firebaseConfig);
+  auth=getAuth(app);
+  /* 強制使用 long-polling：在手機行動網路、LINE 內建瀏覽器、活動現場 Wi-Fi 下比較穩，送出不會卡住 */
+  db=initializeFirestore(app,{experimentalForceLongPolling:true});
+  cfgRef=doc(db,'config','main');
+  onSnapshot(cfgRef,snap=>{
+    const d=snap.exists()?snap.data():{};
+    C={teams:d.teams||[],ids:d.ids||[],open:!!d.open};ready.cfg=true;err='';refresh();
+  },e=>{err=e.message;refresh()});
+  try{
+    await auth.authStateReady();
+    if(auth.currentUser){uid=auth.currentUser.uid;await restoreClaim(true)}
+    else{my='';myVote=null;ready.vote=true}
+  }catch(e){my='';myVote=null;ready.vote=true}
+  ready.auth=true;refresh();
+}
+route();
+if(configured)boot();
+</script>
+
+</body>
+</html>
